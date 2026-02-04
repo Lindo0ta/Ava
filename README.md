@@ -1,11 +1,31 @@
+# 🤖 Agent AVA — Asistente Virtual Avanzado
 
-  # AI Chat Agent Website
+Agent AVA es un asistente de inteligencia artificial desarrollado para apoyar los procesos de la **Dirección de Calidad de UNIMINUTO**, proporcionando una interfaz inteligente para consulta, apoyo operativo y automatización de tareas relacionadas con gestión académica y calidad institucional.
 
-  This is a code bundle for AI Chat Agent Website. The original project is available at https://www.figma.com/design/fUBGTTLglNnLbpVY6Tjjru/AI-Chat-Agent-Website.
+El proyecto está construido con Vite y tecnologías web modernas, optimizado para rendimiento, escalabilidad y experiencia de usuario.
 
-  ## Running the code
+---
 
-  Run `npm i` to install the dependencies.
+## 🚀 Tecnologías utilizadas
 
-  Run `npm run dev` to start the development server.
-  
+- ⚡ Vite
+- ⚛️ React (si aplica)
+- 🟢 Node.js
+- 📦 NPM
+- 🎨 HTML, CSS, JavaScript / TypeScript
+
+---
+
+## 📋 Requisitos previos
+
+Antes de ejecutar el proyecto, asegúrate de tener instalado:
+
+- Node.js (versión recomendada: >= 18.x)
+- NPM (incluido con Node.js)
+
+Puedes verificar las versiones con:
+
+```bash
+node -v
+npm -v
+
