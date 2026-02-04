@@ -26,103 +26,66 @@ export function MainContent() {
     setActiveModal(null);
   };
 
-  // Datos de los botones pequeños
   const actionButtons = [
-    {
-      id: "conoceme",
-      title: "Conóceme",
-      description: "¿Quién es AVA?",
-      icon: User,
-      border: "2px solid #E15E29", 
-      modalContent: {
-        title: "¿Quién es AVA?",
-        content: `AVA (Asistente Virtual Avanzado) es tu compañero experto en Sistemas de Gestión de Calidad. 
+  {
+    id: "conoceme",
+    title: "Conóceme",
+    description: "¿Quién es AVA?",
+    icon: User,
+    modalContent: {
+      title: "¿Quién es AVA?",
+      content: `AVA (Asistente Virtual Avanzado) es tu compañera experta en Sistemas de Gestión de Calidad.
 
-• Especializado en ISO 9001:2015
-• Entrenado en normativas de calidad
-• Disponible 24/7 para consultas
-• Con conocimiento en auditorías y mejora continua
-• Diseñado para apoyar a profesionales de calidad
+Está especializada en la norma ISO 9001:2015 y en buenas prácticas de gestión de calidad. 
+Ha sido entrenada en normativas, auditorías y mejora continua, y está disponible para acompañarte en tus procesos en cualquier momento.
 
-AVA combina inteligencia artificial con experiencia en gestión de calidad para proporcionarte respuestas precisas y útiles.`
-      }
-    },
-    {
-      id: "normas",
-      title: "Normas",
-      description: "Normativas ISO",
-      icon: BookOpen,
-      border: "2px solid #E15E29",
-      modalContent: {
-        title: "Normas de Calidad",
-        content: `AVA está especializado en las siguientes normativas:
-
-📋 **ISO 9001:2015** - Sistemas de Gestión de Calidad
-📋 **ISO 19011** - Directrices para la auditoría de sistemas de gestión
-📋 **ISO 14001** - Sistemas de Gestión Ambiental
-📋 **ISO 45001** - Sistemas de Gestión de Seguridad y Salud en el Trabajo
-📋 **ISO 31000** - Gestión del Riesgo
-
-También conoce:
-• Buenas prácticas de manufactura (GMP)
-• Requisitos regulatorios sectoriales
-• Estándares específicos de la industria`
-      }
-    },
-    {
-      id: "procesos",
-      title: "Procesos",
-      description: "Gestión y mejora",
-      icon: TrendingUp,
-      border: "2px solid #E15E29",
-      modalContent: {
-        title: "Gestión de Procesos",
-        content: `AVA puede ayudarte con:
-
-🔧 **Mapeo de procesos** - Identificación y documentación
-🔧 **Indicadores KPI** - Definición y seguimiento
-🔧 **Mejora continua** - Ciclo PDCA/PHVA
-🔧 **Análisis de riesgos** - Identificación y mitigación
-🔧 **Optimización** - Reducción de desperdicios
-
-Metodologías que conoce:
-• Lean Manufacturing
-• Six Sigma
-• 5S
-• TPM (Mantenimiento Productivo Total)`
-      }
-    },
-    {
-      id: "ayuda",
-      title: "¿Cómo usar?",
-      description: "Guía rápida",
-      icon: HelpCircle,
-      border: "2px solid #E15E29",
-      modalContent: {
-        title: "¿Cómo usar AVA?",
-        content: `**Para obtener mejores resultados:**
-
-1. **Sé específico** - Menciona la norma o proceso
-2. **Proporciona contexto** - Describe tu situación
-3. **Formula preguntas claras** - Una idea por pregunta
-4. **Usa términos técnicos** - AVA entiende el lenguaje de calidad
-
-**Ejemplos de preguntas efectivas:**
-• "¿Cómo documentar un procedimiento de compras según ISO 9001?"
-• "¿Qué indicadores usar para medir satisfacción del cliente?"
-• "¿Cómo realizar una auditoría interna de procesos?"
-• "¿Cuáles son los requisitos de la cláusula 8.5.1 de ISO 9001?"
-
-**AVA puede ayudarte con:**
-• Consultas técnicas
-• Interpretación de requisitos
-• Desarrollo de documentación
-• Preparación de auditorías
-• Análisis de no conformidades`
-      }
+AVA combina inteligencia artificial con conocimiento técnico para ofrecer respuestas claras, precisas y orientadas a la toma de decisiones en entornos organizacionales.`
     }
-  ];
+  },
+  {
+    id: "normas",
+    title: "Pautas de AVA",
+    description: "Normativas ISO",
+    icon: BookOpen,
+    modalContent: {
+      title: "Normas de Calidad",
+      content: `AVA cuenta con conocimientos en los principales estándares de gestión.
 
+Domina la norma ISO 9001:2015 para sistemas de gestión de calidad, así como la ISO 19011 para auditorías. 
+También comprende los enfoques de gestión del riesgo y los requisitos relacionados con seguridad y salud en el entorno UNIMINUTO.
+
+Además, puede orientarte sobre requisitos regulatorios y estándares aplicados a la gestión de calidad en diferentes contextos organizacionales.`
+    }
+  },
+  {
+    id: "procesos",
+    title: "Procesos",
+    description: "Gestión y mejora",
+    icon: TrendingUp,
+    modalContent: {
+      title: "Gestión de Procesos",
+      content: `AVA te apoya en el análisis, diseño y mejora de procesos organizacionales.
+
+Puede ayudarte a mapear procesos, definir indicadores de desempeño, aplicar ciclos de mejora continua y analizar riesgos operativos.
+También contribuye a la optimización de procesos, facilitando decisiones orientadas a la eficiencia y la mejora sostenida.`
+    }
+  },
+  {
+    id: "ayuda",
+    title: "¿Cómo usar?",
+    description: "Guía rápida",
+    icon: HelpCircle,
+    modalContent: {
+      title: "¿Cómo usar AVA?",
+      content: `Para obtener mejores resultados, formula preguntas claras y específicas, incluyendo contexto cuando sea necesario.
+Es recomendable mencionar la norma, el proceso o la situación que deseas analizar.
+
+Por ejemplo, puedes consultar cómo documentar un procedimiento, definir indicadores, realizar una auditoría interna o interpretar requisitos de una norma.
+
+AVA está diseñada para apoyarte en consultas técnicas, interpretación de requisitos, desarrollo de documentación, preparación de auditorías y análisis de situaciones relacionadas con la gestión de calidad.`
+    }
+  }
+];
   const videos = [
     {
       id: 1,
@@ -192,7 +155,7 @@ Metodologías que conoce:
                 </button>
               </div>
 
-              {/* Botones pequeños horizontales - DEBAJO DE LOS BOTONES PRINCIPALES */}
+              {/* Botones pequeños horizontales*/}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -209,7 +172,10 @@ Metodologías que conoce:
                         onClick={() => openModal(button.id)}
                         whileHover={{ scale: 1.05, y: -1 }}
                         whileTap={{ scale: 0.95 }}
-                        className={`bg-gradient-to-br ${button.color} text-white px-4 py-2 rounded-lg hover:shadow-md transition-all flex items-center gap-2 min-w-[120px]`}
+                        className="bg-transparent text-white px-4 py-2 rounded-lg 
+                        border border-white/25 backdrop-blur-sm
+                        hover:border-white/60 hover:bg-white/10 transition-all 
+                        flex items-center gap-2 min-w-[120px]"
                       >
                         <Icon className="w-4 h-4" />
                         <div className="text-left">

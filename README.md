@@ -9,7 +9,11 @@ El proyecto está construido con Vite y tecnologías web modernas, optimizado pa
 ## 🚀 Tecnologías utilizadas
 
 - ⚡ Vite
+<<<<<<< HEAD
 - ⚛️ React
+=======
+- ⚛️ React (si aplica)
+>>>>>>> e45ed74 (Modificacion de  botones)
 - 🟢 Node.js
 - 📦 NPM
 - 🎨 HTML, CSS, JavaScript / TypeScript
