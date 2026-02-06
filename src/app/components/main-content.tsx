@@ -1,13 +1,16 @@
 import { Play, CheckCircle, Sparkles, BookOpen, User, TrendingUp, HelpCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import verAva1 from "@/img/Ver_AVA1.png";
 import verAva2 from "@/img/Ver_AVA2.png";
 import avaIcon from "@/img/ICON AVA.png";
+import avapVideo from "@/img/avap.mp4"; // Importa el video
 
 export function MainContent() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const images = [verAva1, verAva2];
 
   useEffect(() => {
@@ -27,87 +30,64 @@ export function MainContent() {
   };
 
   const actionButtons = [
-  {
-    id: "conoceme",
-    title: "Conóceme",
-    description: "¿Quién es AVA?",
-    icon: User,
-    modalContent: {
-      title: "¿Quién es AVA?",
-      content: `AVA (Asistente Virtual Avanzado) es tu compañera experta en Sistemas de Gestión de Calidad.
+    {
+      id: "conoceme",
+      title: "Conóceme",
+      description: "¿Quién es AVA?",
+      icon: User,
+      modalContent: {
+        title: "¿Quién es AVA?",
+        content: `AVA (Asistente Virtual Avanzado) es tu compañera experta en Sistemas de Gestión de Calidad.
 
 Está especializada en la norma ISO 9001:2015 y en buenas prácticas de gestión de calidad. 
 Ha sido entrenada en normativas, auditorías y mejora continua, y está disponible para acompañarte en tus procesos en cualquier momento.
 
 AVA combina inteligencia artificial con conocimiento técnico para ofrecer respuestas claras, precisas y orientadas a la toma de decisiones en entornos organizacionales.`
-    }
-  },
-  {
-    id: "normas",
-    title: "Pautas de AVA",
-    description: "Normativas ISO",
-    icon: BookOpen,
-    modalContent: {
-      title: "Normas de Calidad",
-      content: `AVA cuenta con conocimientos en los principales estándares de gestión.
+      }
+    },
+    {
+      id: "normas",
+      title: "Pautas de AVA",
+      description: "Normativas ISO",
+      icon: BookOpen,
+      modalContent: {
+        title: "Normas de Calidad",
+        content: `AVA cuenta con conocimientos en los principales estándares de gestión.
 
 Domina la norma ISO 9001:2015 para sistemas de gestión de calidad, así como la ISO 19011 para auditorías. 
 También comprende los enfoques de gestión del riesgo y los requisitos relacionados con seguridad y salud en el entorno UNIMINUTO.
 
 Además, puede orientarte sobre requisitos regulatorios y estándares aplicados a la gestión de calidad en diferentes contextos organizacionales.`
-    }
-  },
-  {
-    id: "procesos",
-    title: "Procesos",
-    description: "Gestión y mejora",
-    icon: TrendingUp,
-    modalContent: {
-      title: "Gestión de Procesos",
-      content: `AVA te apoya en el análisis, diseño y mejora de procesos organizacionales.
+      }
+    },
+    {
+      id: "procesos",
+      title: "Procesos",
+      description: "Gestión y mejora",
+      icon: TrendingUp,
+      modalContent: {
+        title: "Gestión de Procesos",
+        content: `AVA te apoya en el análisis, diseño y mejora de procesos organizacionales.
 
 Puede ayudarte a mapear procesos, definir indicadores de desempeño, aplicar ciclos de mejora continua y analizar riesgos operativos.
 También contribuye a la optimización de procesos, facilitando decisiones orientadas a la eficiencia y la mejora sostenida.`
-    }
-  },
-  {
-    id: "ayuda",
-    title: "¿Cómo usar?",
-    description: "Guía rápida",
-    icon: HelpCircle,
-    modalContent: {
-      title: "¿Cómo usar AVA?",
-      content: `Para obtener mejores resultados, formula preguntas claras y específicas, incluyendo contexto cuando sea necesario.
+      }
+    },
+    {
+      id: "ayuda",
+      title: "¿Cómo usar?",
+      description: "Guía rápida",
+      icon: HelpCircle,
+      modalContent: {
+        title: "¿Cómo usar AVA?",
+        content: `Para obtener mejores resultados, formula preguntas claras y específicas, incluyendo contexto cuando sea necesario.
 Es recomendable mencionar la norma, el proceso o la situación que deseas analizar.
 
 Por ejemplo, puedes consultar cómo documentar un procedimiento, definir indicadores, realizar una auditoría interna o interpretar requisitos de una norma.
 
 AVA está diseñada para apoyarte en consultas técnicas, interpretación de requisitos, desarrollo de documentación, preparación de auditorías y análisis de situaciones relacionadas con la gestión de calidad.`
+      }
     }
-  }
-];
-  const videos = [
-    {
-      id: 1,
-      title: "¿Qué es AVA?",
-      description: "Descubre cómo AVA puede transformar tu gestión de calidad",
-      duration: "2:30",
-      thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=450&fit=crop",
-    },
-    {
-      id: 2,
-      title: "Capacidades de AVA",
-      description: "Conoce todas las funcionalidades del asistente virtual",
-      duration: "3:15",
-      thumbnail: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=450&fit=crop",
-    },
-    {
-      id: 3,
-      title: "Cómo usar AVA",
-      description: "Guía paso a paso para aprovechar al máximo AVA",
-      duration: "4:00",
-      thumbnail: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=450&fit=crop",
-    },
   ];
 
   const features = [
@@ -118,6 +98,19 @@ AVA está diseñada para apoyarte en consultas técnicas, interpretación de req
     "Gestión de no conformidades",
     "Evaluación de riesgos",
   ];
+
+  // Función para manejar la reproducción del video
+  const handlePlayVideo = () => {
+    if (videoRef.current) {
+      if (isVideoPlaying) {
+        videoRef.current.pause();
+        setIsVideoPlaying(false);
+      } else {
+        videoRef.current.play();
+        setIsVideoPlaying(true);
+      }
+    }
+  };
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -374,8 +367,8 @@ AVA está diseñada para apoyarte en consultas técnicas, interpretación de req
         </div>
       </div>
 
-      {/* Videos Section */}
-      <div className="bg-neutral-50 py-16">
+      {/* Video Section - Presentación de AVA */}
+      <div className="bg-gradient-to-br from-neutral-50 to-neutral-100 py-20">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -384,44 +377,185 @@ AVA está diseñada para apoyarte en consultas técnicas, interpretación de req
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h2 className="text-neutral-900 mb-4">Videos Explicativos</h2>
-            <p className="text-neutral-600 max-w-2xl mx-auto">
-              Aprende todo sobre AVA y cómo puede ayudarte en tu trabajo diario
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-full mb-6">
+              <User className="w-5 h-5" />
+              <span className="text-sm font-medium">Presentación Especial</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
+              Conoce a AVA, tu experta en gestión de calidad
+            </h2>
+            <p className="text-neutral-600 max-w-3xl mx-auto text-lg">
+              Descubre en este video quién es AVA, cómo trabaja y cómo puede ayudarte 
+              en cada etapa de tu sistema de gestión de calidad
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {videos.map((video, index) => (
-              <motion.div
-                key={video.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow group cursor-pointer"
-              >
-                <div className="relative aspect-video bg-neutral-200 overflow-hidden">
-                  <img
-                    src={video.thumbnail}
-                    alt={video.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                    <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Play className="w-8 h-8 text-white ml-1" />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="max-w-5xl mx-auto"
+          >
+            <div className="bg-white rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-shadow duration-500 border border-neutral-200">
+              {/* Contenedor del video */}
+              <div className="relative aspect-video bg-gradient-to-br from-neutral-900 to-black overflow-hidden">
+                {/* Video elemento */}
+                <video
+                  ref={videoRef}
+                  src={avapVideo}
+                  className="w-full h-full object-cover"
+                  poster="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=450&fit=crop&q=80"
+                  onClick={handlePlayVideo}
+                >
+                  Tu navegador no soporta el elemento de video.
+                </video>
+
+                {/* Overlay y botón de play */}
+                {!isVideoPlaying && (
+                  <div 
+                    className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30 flex flex-col items-center justify-center cursor-pointer"
+                    onClick={handlePlayVideo}
+                  >
+                    <motion.div 
+                      className="w-24 h-24 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center shadow-2xl mb-6"
+                      whileHover={{ scale: 1.15, rotate: 5 }}
+                      whileTap={{ scale: 0.95 }}
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                    >
+                      <Play className="w-12 h-12 text-white ml-2" />
+                    </motion.div>
+                    
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="text-center"
+                    >
+                      <h3 className="text-2xl font-bold text-white mb-2">
+                        ¿Quién es AVA?
+                      </h3>
+                      <p className="text-white/80 max-w-md">
+                        Haz clic para ver la presentación completa de tu asistente virtual especializado
+                      </p>
+                    </motion.div>
+                  </div>
+                )}
+
+                {/* Controles personalizados */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <button
+                        onClick={handlePlayVideo}
+                        className="w-12 h-12 bg-white/25 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/35 transition-all hover:scale-105"
+                      >
+                        {isVideoPlaying ? (
+                          <span className="text-white font-bold text-lg">⏸️</span>
+                        ) : (
+                          <Play className="w-5 h-5 text-white ml-0.5" />
+                        )}
+                      </button>
+                      <div>
+                        <div className="text-white font-medium">
+                          {isVideoPlaying ? "Reproduciendo: ¿Quién es AVA?" : "Video listo para reproducir"}
+                        </div>
+                        <div className="text-white/70 text-sm">
+                          {isVideoPlaying ? "Conoce a tu asistente virtual" : "Duración: 37 seg"}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="text-white/80 text-sm bg-gradient-to-r from-orange-500/30 to-orange-600/30 px-4 py-2 rounded-full border border-orange-500/20">
+                        Presentación oficial
+                      </span>
                     </div>
                   </div>
-                  <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm">
-                    {video.duration}
+                </div>
+              </div>
+
+              {/* Información detallada sobre AVA */}
+              <div className="p-8 md:p-10">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  <div className="lg:col-span-2">
+                    <h3 className="text-2xl md:text-3xl font-bold text-neutral-900 mb-4">
+                      En este video conocerás a AVA:
+                    </h3>
+                    <ul className="space-y-4">
+                      <li className="flex items-start gap-3">
+                        <div className="w-6 h-6 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                          <CheckCircle className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-neutral-700">
+                          <strong className="text-neutral-900">Su propósito:</strong> Descubre por qué AVA fue creada y cómo puede transformar tu gestión de calidad
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <div className="w-6 h-6 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                          <CheckCircle className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-neutral-700">
+                          <strong className="text-neutral-900">Su experiencia:</strong> Conoce su especialización en ISO 9001:2015 y otras normativas clave
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <div className="w-6 h-6 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                          <CheckCircle className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-neutral-700">
+                          <strong className="text-neutral-900">Su enfoque:</strong> Entiende cómo AVA combina IA con conocimiento técnico para ayudarte
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-3">
+                        <div className="w-6 h-6 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                          <CheckCircle className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-neutral-700">
+                          <strong className="text-neutral-900">Sus beneficios:</strong> Aprende cómo AVA puede ahorrarte tiempo y mejorar tus procesos
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div className="bg-gradient-to-br from-neutral-50 to-white p-6 rounded-2xl border border-neutral-200">
+                    <div className="flex items-center gap-3 mb-4">
+                      <img src={avaIcon} alt="AVA" className="w-12 h-12" />
+                      <div>
+                        <h4 className="font-bold text-neutral-900">AVA</h4>
+                        <p className="text-sm text-neutral-600">Asistente Virtual Avanzado</p>
+                      </div>
+                    </div>
+                    <p className="text-neutral-700 mb-6">
+                      Especialista en Sistemas de Gestión de Calidad con enfoque en ISO 9001:2015, auditorías y mejora continua.
+                    </p>
+                    <button 
+                      onClick={handlePlayVideo}
+                      className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 rounded-xl font-medium hover:from-orange-600 hover:to-orange-700 transition-all flex items-center justify-center gap-2"
+                    >
+                      <Play className="w-4 h-4" />
+                      {isVideoPlaying ? "Ver video en reproducción" : "Ver presentación completa"}
+                    </button>
                   </div>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-neutral-900 mb-2">{video.title}</h3>
-                  <p className="text-sm text-neutral-600">{video.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            </div>
+            
+            {/* Nota adicional */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              className="mt-8 text-center"
+            >
+              <p className="text-neutral-600 text-sm">
+                Este video te ayudará a entender mejor cómo AVA puede ser tu aliada estratégica en la implementación 
+                y mejora de tu sistema de gestión de calidad.
+              </p>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 
