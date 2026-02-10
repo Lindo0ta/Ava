@@ -17,14 +17,21 @@ export function MainContent({ onStartChat, onViewDemo }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const fullscreenVideoRef = useRef<HTMLVideoElement>(null);
   const videoSectionRef = useRef<HTMLDivElement>(null);
-  const images = [verAva1, verAva2];
+  
+  // Todas las imágenes de AVA que tienes
+  const avaImages = [
+    verAva1,
+    verAva2,
+    // Puedes agregar más imágenes aquí si las tienes
+  ];
 
+  // Carrusel automático para las imágenes de AVA
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    }, 1000);
+      setCurrentImageIndex((prev) => (prev + 1) % avaImages.length);
+    }, 1000); // Cambia cada 3 segundos
     return () => clearInterval(interval);
-  }, []);
+  }, [avaImages.length]);
 
   // Funciones para manejar los modales
   const openModal = (modalType: string) => {
@@ -257,24 +264,62 @@ Está diseñada para apoyarte en consultas técnicas, interpretación de requisi
                 Respuestas expertas en ISO 9001, auditorías, mejora continua y más.
               </p>
               
-              {/* Botones principales */}
-              <div className="flex items-center justify-start gap-4 mb-6">
-                <button 
-                  onClick={handleStartChat}
-                  className="px-8 py-4 bg-white text-[#012657] font-semibold rounded-xl hover:bg-yellow-100 transition-all flex items-center gap-2 shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
-                >
-                  <img src={avaIcon} alt="AVA" className="w-9 h-9" />
-                  Iniciar Chat
-                </button>
-                <button 
-                  onClick={handleViewDemo}
-                  className="px-8 py-4 bg-white/20 backdrop-blur-sm text-white rounded-xl hover:bg-white/30 transition-all border border-white/40 hover:scale-105 active:scale-95 cursor-pointer"
-                >
-                  Ver Demo
-                </button>
+              {/* Botones principales CON CARRUSEL DE IMÁGENES - VERSIÓN MINIMALISTA */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
+                <div className="flex items-center gap-4">
+                  <button 
+                    onClick={handleStartChat}
+                    className="px-8 py-4 bg-white text-[#012657] font-semibold rounded-xl hover:bg-yellow-100 transition-all flex items-center gap-2 shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+                  >
+                    <img src={avaIcon} alt="AVA" className="w-9 h-9" />
+                    Iniciar Chat
+                  </button>
+                  
+                  {/* Contenedor del botón Ver Demo con carrusel MINIMALISTA */}
+                  <div className="relative flex items-center gap-3">
+                    <button 
+                      onClick={handleViewDemo}
+                      className="px-8 py-4 bg-white/20 backdrop-blur-sm text-white rounded-xl hover:bg-white/30 transition-all border border-white/40 hover:scale-105 active:scale-95 cursor-pointer whitespace-nowrap"
+                    >
+                      Ver Demo
+                    </button>
+                    
+                    {/* Carrusel transparente minimalista - SOLO PUNTOS */}
+                    <div className="relative w-24 h-24">
+                      {avaImages.map((img, index) => (
+                        <motion.img
+                          key={index}
+                          src={img}
+                          alt={`AVA ${index + 1}`}
+                          className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                          initial={{ opacity: 0 }}
+                          animate={{ 
+                            opacity: index === currentImageIndex ? 1 : 0,
+                          }}
+                          transition={{ duration: 0.5 }}
+                        />
+                      ))}
+                      
+                      {/* Solo puntos indicadores - fondo transparente */}
+                      <div className="absolute bottom-2 inset-x-0 flex justify-center items-center gap-1">
+                        {avaImages.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setCurrentImageIndex(index)}
+                            className={`w-1.5 h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                              index === currentImageIndex 
+                                ? 'bg-white' 
+                                : 'bg-white/30 hover:bg-white/50'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Botones pequeños horizontales*/}
+              {/* Botones pequeños horizontales */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -374,7 +419,7 @@ Está diseñada para apoyarte en consultas técnicas, interpretación de requisi
                         Haz clic para ver la presentación completa
                       </p>
                       <p className="text-white/70 text-sm mt-1">
-                        Duración: 37 segundos
+                        Duración: 49 segundos
                       </p>
                     </motion.div>
                   </div>
