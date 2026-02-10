@@ -564,13 +564,13 @@ Está diseñada para apoyarte en consultas técnicas, interpretación de requisi
           {/* Video elemento */}
           <video
             ref={videoRef}
-            src={avapVideo}
             className="w-full h-full object-cover cursor-pointer"
             poster="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=450&fit=crop&q=80"
             onClick={handlePlayVideo}
             preload="metadata"
             playsInline
           >
+            <source src={avapVideo} type="video/mp4" />
             Tu navegador no soporta el elemento de video.
           </video>
 
