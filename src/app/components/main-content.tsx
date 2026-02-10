@@ -44,12 +44,12 @@ export function MainContent({ onStartChat, onViewDemo }) {
   // Función para redirigir a Teams
   const openTeamsChat = () => {
     // Reemplaza con tu enlace real de Teams
-    window.open('https://teams.microsoft.com/l/chat/0/0?users=tu-usuario', '_blank');
+    window.open('https://teams.microsoft.com/l/chat/0/0?users=calidadyriesgosbgta@uniminuto.edu', '_blank');
   };
 
   // Función para redirigir a correo
   const openEmail = () => {
-    window.location.href = 'mailto:soporte@tuempresa.com?subject=Consulta sobre AVA';
+    window.location.href = 'mailto:calidadyriesgosbgta@uniminuto.edu?subject=Consulta sobre AVA';
   };
 
   // Función para centrar en la sección del video
@@ -168,7 +168,8 @@ Está diseñada para apoyarte en consultas técnicas, interpretación de requisi
   const features = [
     "Respuestas instantáneas sobre ISO 9001",
     "Gestión de no conformidades",
-    "Guía sobre mejora continua"
+    "Guía sobre mejora continua",
+    "Simulador de Auditorías Interna/Externa"
   ];
 
   const upcomingFeatures = [
@@ -386,64 +387,71 @@ Está diseñada para apoyarte en consultas técnicas, interpretación de requisi
           </>
         )}
       </AnimatePresence>
-
-      {/* Features Section - DISPONIBLE AHORA - EN AZUL */}
-      <div className="bg-gradient-to-br from-blue-50 to-gray-100 py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-full mb-6">
-              <CheckCircle className="w-5 h-5" />
-              <span className="text-sm font-medium">Disponible Ahora</span>
-            </div>
-            <h2 className="text-neutral-900 mb-4">¿Qué puede hacer AVA por ti?</h2>
-            <p className="text-neutral-600 max-w-2xl mx-auto">
-              AVA está diseñado para ser tu compañero experto en gestión de calidad,
-              disponible 24/7 para responder tus preguntas.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-16">
-            {features.map((feature, index) => (
-              <motion.div
-                key={`current-${index}`}
-                initial={{ opacity: 0, y: 50, scale: 0.8, rotateX: -20 }}
-                whileInView={{ 
-                  opacity: 1, 
-                  y: 0, 
-                  scale: 1,
-                  rotateX: 0,
-                  transition: {
-                    duration: 0.6,
-                    delay: index * 0.15,
-                    type: "spring",
-                    stiffness: 100,
-                    damping: 12
-                  }
-                }}
-                whileHover={{ scale: 1.05, y: -8 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.4 }}
-                className="flex items-center gap-3 bg-gradient-to-br from-blue-50 to-white p-4 rounded-xl border border-blue-200 hover:border-blue-500 hover:shadow-lg transition-all cursor-pointer"
-              >
-                <motion.div 
-                  className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center"
-                  whileHover={{ rotate: 360 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  <CheckCircle className="w-5 h-5 text-white" />
-                </motion.div>
-                <span className="text-neutral-800 font-medium">{feature}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+{/* Features Section - DISPONIBLE AHORA - EN AZUL */}
+<div className="bg-gradient-to-br from-blue-50 to-gray-100 py-16">
+  <div className="max-w-7xl mx-auto px-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="text-center mb-12"
+    >
+      <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-full mb-6">
+        <CheckCircle className="w-5 h-5" />
+        <span className="text-sm font-medium">Disponible Ahora</span>
       </div>
+      <h2 className="text-neutral-900 mb-4">¿Qué puede hacer AVA por ti?</h2>
+      <p className="text-neutral-600 max-w-2xl mx-auto">
+        AVA está diseñado para ser tu compañero experto en gestión de calidad,
+        disponible 24/7 para responder tus preguntas.
+      </p>
+    </motion.div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+      {features.map((feature, index) => (
+        <motion.div
+          key={`current-${index}`}
+          initial={{ opacity: 0, y: 50, scale: 0.8, rotateX: -20 }}
+          whileInView={{ 
+            opacity: 1, 
+            y: 0, 
+            scale: 1,
+            rotateX: 0,
+            transition: {
+              duration: 0.6,
+              delay: index * 0.15,
+              type: "spring",
+              stiffness: 100,
+              damping: 12
+            }
+          }}
+          whileHover={{ scale: 1.05, y: -8 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.4 }}
+          className={`flex items-center gap-3 bg-gradient-to-br from-blue-50 to-white p-4 rounded-xl border border-blue-200 hover:border-blue-500 hover:shadow-lg transition-all cursor-pointer relative
+            ${index === features.length - 1 ? 'relative' : ''}`}
+        >
+          {/* Burbuja "Piloto" solo para el último elemento (Simulador de Auditorías) */}
+          {index === features.length - 1 && (
+            <div className="absolute -top-2 -right-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-2 py-1 rounded-full z-10">
+              Piloto
+            </div>
+          )}
+          
+          <motion.div 
+            className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center"
+            whileHover={{ rotate: 360 }}
+            transition={{ duration: 0.6 }}
+          >
+            <CheckCircle className="w-5 h-5 text-white" />
+          </motion.div>
+          <span className="text-neutral-800 font-medium">{feature}</span>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</div>
 
       {/* Upcoming Features Section - EN DESARROLLO - EN NARANJA */}
       <div className="bg-gradient-to-br from-orange-50 to-gray-100 py-16">
@@ -520,84 +528,84 @@ Está diseñada para apoyarte en consultas técnicas, interpretación de requisi
           </motion.div>
         </div>
       </div>
+{/* Video Section - Presentación de AVA */}
+<div ref={videoSectionRef} className="bg-gradient-to-br from-neutral-50 to-neutral-100 py-20">
+  <div className="max-w-7xl mx-auto px-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="text-center mb-12"
+    >
+      <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-full mb-6">
+        <User className="w-5 h-5" />
+        <span className="text-sm font-medium">Presentación Especial</span>
+      </div>
+      <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
+        Conoce a AVA, tu experta en gestión de calidad
+      </h2>
+      <p className="text-neutral-600 max-w-3xl mx-auto text-lg">
+        Descubre en este video quién es AVA, cómo trabaja y cómo puede ayudarte 
+        en cada etapa de tu sistema de gestión de calidad
+      </p>
+    </motion.div>
 
-      {/* Video Section - Presentación de AVA */}
-      <div ref={videoSectionRef} className="bg-gradient-to-br from-neutral-50 to-neutral-100 py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+      className="max-w-5xl mx-auto"
+    >
+      <div className="bg-white rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-shadow duration-500 border border-neutral-200">
+        {/* Contenedor del video */}
+        <div className="relative aspect-video bg-gradient-to-br from-neutral-900 to-black overflow-hidden">
+          {/* Video elemento */}
+          <video
+            ref={videoRef}
+            src={avapVideo}
+            className="w-full h-full object-cover cursor-pointer"
+            poster="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=450&fit=crop&q=80"
+            onClick={handlePlayVideo}
+            preload="metadata"
+            playsInline
           >
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-2 rounded-full mb-6">
-              <User className="w-5 h-5" />
-              <span className="text-sm font-medium">Presentación Especial</span>
+            Tu navegador no soporta el elemento de video.
+          </video>
+
+          {/* Overlay y botón de play */}
+          {!isVideoPlaying && (
+            <div 
+              className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30 flex flex-col items-center justify-center cursor-pointer"
+              onClick={handlePlayVideo}
+            >
+              <motion.div 
+                className="w-24 h-24 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center shadow-2xl mb-6"
+                whileHover={{ scale: 1.15, rotate: 5 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+              >
+                <Play className="w-12 h-12 text-white ml-2" />
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-center"
+              >
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  ¿Quién es AVA?
+                </h3>
+                <p className="text-white/80 max-w-md">
+                  Haz clic para ver la presentación completa de tu asistente virtual especializado
+                </p>
+              </motion.div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
-              Conoce a AVA, tu experta en gestión de calidad
-            </h2>
-            <p className="text-neutral-600 max-w-3xl mx-auto text-lg">
-              Descubre en este video quién es AVA, cómo trabaja y cómo puede ayudarte 
-              en cada etapa de tu sistema de gestión de calidad
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-5xl mx-auto"
-          >
-            <div className="bg-white rounded-3xl overflow-hidden shadow-2xl hover:shadow-3xl transition-shadow duration-500 border border-neutral-200">
-              {/* Contenedor del video */}
-              <div className="relative aspect-video bg-gradient-to-br from-neutral-900 to-black overflow-hidden">
-                {/* Video elemento */}
-                <video
-                  ref={videoRef}
-                  src={avapVideo}
-                  className="w-full h-full object-cover cursor-pointer"
-                  poster="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=450&fit=crop&q=80"
-                  onClick={handlePlayVideo}
-                >
-                  Tu navegador no soporta el elemento de video.
-                </video>
-
-                {/* Overlay y botón de play */}
-                {!isVideoPlaying && (
-                  <div 
-                    className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/30 flex flex-col items-center justify-center cursor-pointer"
-                    onClick={handlePlayVideo}
-                  >
-                    <motion.div 
-                      className="w-24 h-24 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center shadow-2xl mb-6"
-                      whileHover={{ scale: 1.15, rotate: 5 }}
-                      whileTap={{ scale: 0.95 }}
-                      initial={{ scale: 0, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                    >
-                      <Play className="w-12 h-12 text-white ml-2" />
-                    </motion.div>
-                    
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 }}
-                      className="text-center"
-                    >
-                      <h3 className="text-2xl font-bold text-white mb-2">
-                        ¿Quién es AVA?
-                      </h3>
-                      <p className="text-white/80 max-w-md">
-                        Haz clic para ver la presentación completa de tu asistente virtual especializado
-                      </p>
-                    </motion.div>
-                  </div>
-                )}
-
+          )}
                 {/* Controles personalizados */}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-5">
                   <div className="flex items-center justify-between">
