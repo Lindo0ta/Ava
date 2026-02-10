@@ -599,7 +599,7 @@ Está diseñada para apoyarte en consultas técnicas, interpretación de requisi
               >
                 {/* Burbuja "Piloto" solo para el último elemento (Simulador de Auditorías) */}
                 {index === features.length - 1 && (
-                  <div className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white text-xs px-2 py-1 rounded-full z-10">
+                  <div className="absolute -top-2 -right-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-2 py-1 rounded-full z-10">
                     Piloto
                   </div>
                 )}
