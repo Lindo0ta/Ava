@@ -1,3 +1,4 @@
+// src/app/components/chat-sidebar.tsx
 import { useState, useRef, useEffect } from "react";
 import { Send, X, MessageSquare, RefreshCw } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
@@ -6,15 +7,12 @@ import avaIcon from "@/img/ICON AVA.png";
 // USANDO EL WEBHOOK DEL CÓDIGO 1
 const IFRAME_SRC = "https://n8necosystem-amdxgsdnd3dgewaj.centralus-01.azurewebsites.net/webhook/f72c29bd-ed16-4114-a635-c7535170539a/chat";
 
-export default function AvaDashboard() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100">
-      <ChatSidebar />
-    </div>
-  );
+// Agrega esta interfaz para las props
+interface ChatSidebarProps {
+  onClose?: () => void;
 }
 
-function ChatSidebar() {
+export function ChatSidebar({ onClose }: ChatSidebarProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -22,12 +20,21 @@ function ChatSidebar() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [iframeKey, setIframeKey] = useState(Date.now());
 
+  // Función para manejar el cierre
+  const handleClose = () => {
+    setIsOpen(false);
+    // Si se pasó una función onClose, la ejecutamos
+    if (onClose) {
+      setTimeout(onClose, 300); // Espera la animación de salida
+    }
+  };
+
   // Función para recargar el iframe
   const reloadIframe = () => {
     setHasError(false);
     setIsLoading(true);
     setRetryCount(prev => prev + 1);
-    setIframeKey(Date.now()); // Forzar recreación del iframe
+    setIframeKey(Date.now());
   };
 
   const handleIframeLoad = () => {
@@ -51,17 +58,14 @@ function ChatSidebar() {
         const iframe = iframeRef.current;
         if (!iframe) return;
 
-        // Verificar si el iframe tiene contenido
         const iframeDoc = iframe.contentDocument;
         if (iframeDoc && iframeDoc.readyState === 'complete') {
-          // Verificar si hay contenido visible
           const body = iframeDoc.body;
           if (body && body.children.length > 0) {
             setHasError(false);
           }
         }
       } catch (error) {
-        // Error por CORS, pero el iframe puede estar cargado
         console.log("No se puede verificar contenido del iframe (CORS)");
       }
     };
@@ -111,22 +115,11 @@ function ChatSidebar() {
     </div>
   );
 
+  // Si no está abierto, no renderizar nada (el App.tsx controla la visibilidad)
+  if (!isOpen) return null;
+
   return (
     <>
-      <AnimatePresence>
-        {!isOpen && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 bg-gradient-to-r from-orange-500 to-orange-600 text-white p-5 rounded-full shadow-2xl hover:from-orange-600 hover:to-orange-700 transition-all z-50 hover:scale-110 duration-300"
-          >
-            <MessageSquare className="w-7 h-7" />
-          </motion.button>
-        )}
-      </AnimatePresence>
-
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -134,7 +127,7 @@ function ChatSidebar() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed right-6 top-6 h-[95vh] w-full max-w-[420px] bg-white rounded-2xl shadow-2xl flex flex-col z-40 border border-gray-200"
+            className="fixed right-6 top-6 h-[95vh] w-full max-w-[420px] bg-white rounded-2xl shadow-2xl flex flex-col z-50 border border-gray-200"
           >
             {/* Header chat */}
             <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-5 flex items-center justify-between rounded-t-2xl">
@@ -153,7 +146,7 @@ function ChatSidebar() {
                 <div>
                   <h2 className="text-sm font-semibold">AVA</h2>
                   <p className="text-xs text-orange-100">
-                    Asistente Virtual Avanzado
+                    Asistente Virtual de Apoyo
                   </p>
                 </div>
               </div>
@@ -166,8 +159,8 @@ function ChatSidebar() {
                   </div>
                 )}
                 <button
-                  onClick={() => setIsOpen(false)}
-                  className="p-2 hover:bg-white/20 rounded-lg transition hover:rotate-90 duration-300"
+                  onClick={handleClose}
+                  className="p-2 hover:bg-white/20 rounded-lg transition hover:rotate-90 duration-300 cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -194,7 +187,6 @@ function ChatSidebar() {
               {hasError ? (
                 <ErrorView />
               ) : (
-                // IFRAME con key para forzar recarga
                 <iframe
                   key={iframeKey}
                   ref={iframeRef}
@@ -205,9 +197,7 @@ function ChatSidebar() {
                   onError={handleIframeError}
                   sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
                   allow="microphone; camera"
-                  style={{
-                    backgroundColor: '#fafafa'
-                  }}
+                  style={{ backgroundColor: '#fafafa' }}
                 />
               )}
             </div>
@@ -245,3 +235,6 @@ function ChatSidebar() {
     </>
   );
 }
+
+// Remueve el componente AvaDashboard si no lo necesitas
+// o mantenlo si se usa en otra parte
