@@ -4,10 +4,8 @@ import { Send, X, MessageSquare, RefreshCw } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import avaIcon from "@/img/ICON AVA.png";
 
-// USANDO EL WEBHOOK DEL CÓDIGO 1
 const IFRAME_SRC = "https://n8necosystem-amdxgsdnd3dgewaj.centralus-01.azurewebsites.net/webhook/f72c29bd-ed16-4114-a635-c7535170539a/chat";
 
-// Agrega esta interfaz para las props
 interface ChatSidebarProps {
   onClose?: () => void;
 }
@@ -20,16 +18,13 @@ export function ChatSidebar({ onClose }: ChatSidebarProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [iframeKey, setIframeKey] = useState(Date.now());
 
-  // Función para manejar el cierre
   const handleClose = () => {
     setIsOpen(false);
-    // Si se pasó una función onClose, la ejecutamos
     if (onClose) {
-      setTimeout(onClose, 300); // Espera la animación de salida
+      setTimeout(onClose, 300);
     }
   };
 
-  // Función para recargar el iframe
   const reloadIframe = () => {
     setHasError(false);
     setIsLoading(true);
@@ -49,7 +44,6 @@ export function ChatSidebar({ onClose }: ChatSidebarProps) {
     console.log("Error cargando el iframe");
   };
 
-  // Verificar periódicamente si el iframe está cargado
   useEffect(() => {
     if (!isOpen || !iframeRef.current) return;
 
@@ -74,7 +68,6 @@ export function ChatSidebar({ onClose }: ChatSidebarProps) {
     return () => clearInterval(interval);
   }, [isOpen]);
 
-  // Vista de error cuando el iframe falla
   const ErrorView = () => (
     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white p-6">
       <div className="text-center">
@@ -115,7 +108,6 @@ export function ChatSidebar({ onClose }: ChatSidebarProps) {
     </div>
   );
 
-  // Si no está abierto, no renderizar nada (el App.tsx controla la visibilidad)
   if (!isOpen) return null;
 
   return (
@@ -129,9 +121,9 @@ export function ChatSidebar({ onClose }: ChatSidebarProps) {
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="fixed right-6 top-6 h-[95vh] w-full max-w-[420px] bg-white rounded-2xl shadow-2xl flex flex-col z-50 border border-gray-200"
           >
-            {/* Header chat */}
-            <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-5 flex items-center justify-between rounded-t-2xl">
-              <div className="flex items-center gap-3">
+            {/* HEADER - solo estado de conexión, sin la nota */}
+            <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-5 flex items-start justify-between rounded-t-2xl">
+              <div className="flex items-start gap-3">
                 <motion.div
                   className="bg-white rounded-full p-1 shadow-md"
                   animate={{ scale: [1, 1.05, 1] }}
@@ -143,28 +135,42 @@ export function ChatSidebar({ onClose }: ChatSidebarProps) {
                     className="w-10 h-10 rounded-full"
                   />
                 </motion.div>
-                <div>
+                <div className="flex flex-col">
                   <h2 className="text-sm font-semibold">AVA</h2>
                   <p className="text-xs text-orange-100">
                     Asistente Virtual de Apoyo
                   </p>
+                  
+                  {/* ✅ ESTADO DE CONEXIÓN - Solo aquí */}
+                  <div className="flex items-center gap-1 mt-2">
+                    {!hasError && !isLoading && (
+                      <>
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span className="text-xs text-orange-100">Conectado</span>
+                      </>
+                    )}
+                    {isLoading && (
+                      <>
+                        <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                        <span className="text-xs text-orange-100">Conectando...</span>
+                      </>
+                    )}
+                    {hasError && (
+                      <>
+                        <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                        <span className="text-xs text-orange-100">Sin conexión</span>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                {hasError && (
-                  <div className="flex items-center gap-1 mr-2">
-                    <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                    <span className="text-xs text-orange-100">Sin conexión</span>
-                  </div>
-                )}
-                <button
-                  onClick={handleClose}
-                  className="p-2 hover:bg-white/20 rounded-lg transition hover:rotate-90 duration-300 cursor-pointer"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
+              <button
+                onClick={handleClose}
+                className="p-2 hover:bg-white/20 rounded-lg transition hover:rotate-90 duration-300 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
             {/* Área del chatbot */}
@@ -202,31 +208,12 @@ export function ChatSidebar({ onClose }: ChatSidebarProps) {
               )}
             </div>
 
-            {/* Nota de estado */}
+            {/* ✅ FOOTER - Solo la nota, sin estado de conexión */}
             <div className="border-t border-neutral-200 p-3 bg-white">
-              <div className="flex items-center justify-center gap-2">
-                {hasError ? (
-                  <>
-                    <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                    <p className="text-xs text-red-600 font-medium">
-                      Sin conexión con AVA
-                    </p>
-                  </>
-                ) : isLoading ? (
-                  <>
-                    <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-                    <p className="text-xs text-orange-600">
-                      Conectando...
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <p className="text-xs text-gray-500">
-                      AVA conectado • Asistente de Calidad
-                    </p>
-                  </>
-                )}
+              <div className="flex items-center justify-center">
+                <p className="text-xs text-gray-600 italic text-center">
+                  Nota: si quieres regresar al menú inicial escribe "cambiar" en el chat
+                </p>
               </div>
             </div>
           </motion.div>
@@ -235,6 +222,3 @@ export function ChatSidebar({ onClose }: ChatSidebarProps) {
     </>
   );
 }
-
-// Remueve el componente AvaDashboard si no lo necesitas
-// o mantenlo si se usa en otra parte
