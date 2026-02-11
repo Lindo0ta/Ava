@@ -98,10 +98,14 @@ export function MainContent({ onStartChat, onViewDemo }) {
   };
 
   // Función para redirigir a correo
-  const openEmail = () => {
-    window.location.href = 'mailto:calidadyriesgosbgta@uniminuto.edu?subject=Consulta sobre AVA';
-  };
-
+const openEmail = () => {
+  const destinatario = encodeURIComponent('calidadyriesgosbgta@uniminuto.edu');
+  const asunto = encodeURIComponent('Consulta sobre AVA');
+  window.open(
+    `https://outlook.office.com/mail/deeplink/compose?to=${destinatario}&subject=${asunto}`,
+    '_blank'
+  );
+};
   // Función para centrar en la sección del video
   const scrollToVideo = () => {
     if (videoSectionRef.current) {
